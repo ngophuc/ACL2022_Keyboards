@@ -1,4 +1,4 @@
-package tile;
+package com.keyboards.tile;
 
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
