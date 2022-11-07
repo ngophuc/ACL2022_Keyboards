@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.lang.model.element.NestingKind;
 
-import global.Global;
+import com.keyboards.global.Global;
 
 public class TileManager {
 	

@@ -5,8 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
-import game.Entity;
-import global.Global;
+import com.keyboards.global.Global;
 
 public class Tile {
 	
