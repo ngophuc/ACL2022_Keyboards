@@ -7,20 +7,22 @@ import java.io.File;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
-import javax.lang.model.element.NestingKind;
 
 import com.keyboards.global.Global;
 
 public class TileManager {
 	
-	public ArrayList<Tile> tiles;
+	public ArrayList<BufferedImage> tilesImages;
 	public Tile[][] mapTiles;
 
 	public TileManager() {
-		tiles = new ArrayList<Tile>();
-		mapTiles = new Tile[Global.COL_NUM + 1][Global.ROW_NUM + 1];
+		tilesImages = new ArrayList<BufferedImage>();
+		mapTiles = new Tile[Global.ROW_NUM][Global.COL_NUM];
 		
-		loadTileArrayFromDir("/res/tiles");
+		loadTileArrayFromDir("res/tiles");
+
+		initMap();
+		System.out.println("Map initialized");
 	}
 	
 	private BufferedImage loadTileImage(File file) {
@@ -34,43 +36,62 @@ public class TileManager {
         }
         return tileImage;
 	}
-	
-	// need to figure out a way to properly order the tiles
+
+
 	private void loadTileArrayFromDir(String dirPath) {
 		File dir = new File(dirPath);
 		if (dir.isDirectory()) {
 			File[] files = dir.listFiles();
+			// sort the files alphabetically to ensure that the tiles are loaded in a predictable order
 			for (int i = 0; i < files.length; i++) {
-				tiles.add(new Tile(loadTileImage(files[i]), new Rectangle(0, 0, Global.TILE_SIZE, Global.TILE_SIZE/2)));
+				for (int j = i + 1; j < files.length; j++) {
+					if (files[i].getName().compareTo(files[j].getName()) > 0) {
+						File temp = files[i];
+						files[i] = files[j];
+						files[j] = temp;
+					}
+				}
 			}
+			for (int i = 0; i < files.length; i++) {
+				tilesImages.add(loadTileImage(files[i]));
+			}
+			System.out.println(tilesImages.size() + " tiles loaded");
 		} else {
 			System.out.println("ERROR: not a directory: " + dirPath);
 		}
 	}
 	
-	public Tile geTile(int col, int row) {
+	// needs to be in map class
+	public Tile getTile(int row, int col) {
 		return mapTiles[row][col];
 	}
 
-	public void draw(Graphics2D g) {
-		for (int i = 0; i < tiles.size(); i++) {
-			Tile tile = tiles.get(i);
-			if (tile != null) {
-				if (i == 3) {
-					mapTiles[i+1][5] = tile;
-					tile.solidBox.x = (i+1) * Global.TILE_SIZE;
-				} else {
-					mapTiles[i][5] = tile;
-					tile.solidBox.x = i * Global.TILE_SIZE;
-				}
-				tile.solidBox.y = 5 * Global.TILE_SIZE + Global.TILE_SIZE/2;
+	private void initMap() {
+	    System.out.println("Initializing map...");
+		for (int row = 0; row < Global.ROW_NUM; row++) {
+			for (int col = 0; col < Global.COL_NUM; col++) {
+				mapTiles[row][col] = new Tile(row, col, null);
 			}
 		}
 
-		for (int i = 0; i < Global.COL_NUM; i++) {
-			for (int j = 0; j < Global.ROW_NUM; j++) {
-				if (mapTiles[i][j] != null) {
-					mapTiles[i][j].draw(g, i, j);
+		for (int i = 0; i < tilesImages.size(); i++) {
+			BufferedImage tileImage = tilesImages.get(i);
+			if (tileImage != null) {
+				if (i == 3) {
+					mapTiles[5][i+1] = new Tile(5, i + 1, tileImage, new Rectangle((i+1) * Global.TILE_SIZE, 5 * Global.TILE_SIZE, Global.TILE_SIZE, Global.TILE_SIZE));
+				} else {
+					mapTiles[5][i] = new Tile(5, i, tileImage, new Rectangle(i * Global.TILE_SIZE, 5 * Global.TILE_SIZE, Global.TILE_SIZE, Global.TILE_SIZE));
+				}
+			}
+		}
+	}
+
+	public void draw(Graphics2D g) {
+
+		for (int row = 0; row < Global.ROW_NUM; row++) {
+			for (int col = 0; col < Global.COL_NUM; col++) {
+				if (mapTiles[row][col] != null) {
+					mapTiles[row][col].draw(g, col, row);
 				}
 			}
 		}
