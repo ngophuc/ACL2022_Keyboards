@@ -51,7 +51,58 @@ public class RunGame implements Game {
 	 */
 	@Override
 	public void evolve(HashMap<String, Boolean> commands) {
-		// TODO: Loric
+		// String commandsString = "";
+		
+		if (commands.get("UP")) {
+			// commandsString += "UP ";
+
+			player.moveUp();
+		}
+		if (commands.get("DOWN")) {
+			// commandsString += "DOWN ";
+
+			player.moveDown();
+		}
+		if (commands.get("LEFT")) {
+			// commandsString += "LEFT ";
+
+			player.moveLeft();
+		}
+		if (commands.get("RIGHT")) {
+			// commandsString += "RIGHT ";
+
+			player.moveRight();
+		}
+		if (commands.get("SHIFT")) {
+			player.isSprinting = true;
+		} else {
+			player.isSprinting = false;
+		}
+		if (commands.get("SPACE")) {
+			// commandsString += "SPACE ";
+			// TODO : use object
+		}
+		if (Controller.isIdle(commands)) {
+			// commandsString += "IDLE ";
+			player.idle();
+		}
+
+		// System.out.println("Commandes : " + commandsString);
+		
+		player.spriteCounter++;
+		if (player.spriteCounter > 5) {
+			if (player.spriteNum < player.NUMBER_OF_FRAME_IN_WALK_ANIM - 1) {
+				player.spriteNum++;
+			} else {
+				player.spriteNum = 0;
+			}
+			player.spriteCounter = 0;
+		}
+		
+//		zombie.getPath(player);
+		zombie.moveTowards(player);
+		
+//		System.out.println("sprite counter : " + player.spriteCounter + " sprite num : " + player.spriteNum);
 	}
 
 	/**

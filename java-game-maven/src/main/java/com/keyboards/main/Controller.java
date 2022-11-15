@@ -11,7 +11,12 @@ public class Controller implements GameController{
 
 
 	public Controller() {
-		//TODO: Loric
+		commands.put("UP", false);
+		commands.put("DOWN", false);
+		commands.put("LEFT", false);
+		commands.put("RIGHT", false);
+		commands.put("SPACE", false);
+		commands.put("SHIFT", false);
 	}
 
 	/**
@@ -29,7 +34,14 @@ public class Controller implements GameController{
 	 * met a jour les commandes en fonctions des touches appuyees
 	 */
 	public void keyPressed(KeyEvent e) {
-		//TODO: Loric
+		switch (e.getKeyCode()) {
+			case KeyEvent.VK_Z: commands.put("UP", true); break;
+			case KeyEvent.VK_S: commands.put("DOWN", true); break;
+			case KeyEvent.VK_Q: commands.put("LEFT", true); break;
+			case KeyEvent.VK_D: commands.put("RIGHT", true); break;
+			case KeyEvent.VK_SHIFT: commands.put("SHIFT", true); break;
+			case KeyEvent.VK_SPACE: commands.put("SPACE", true); break;
+		}
 	}
 
 	@Override
@@ -37,7 +49,14 @@ public class Controller implements GameController{
 	 * met a jour les commandes quand le joueur relache une touche
 	 */
 	public void keyReleased(KeyEvent e) {
-		//TODO: Loric
+		switch (e.getKeyCode()) {
+			case KeyEvent.VK_Z: commands.put("UP", false); break;
+			case KeyEvent.VK_S: commands.put("DOWN", false); break;
+			case KeyEvent.VK_Q: commands.put("LEFT", false); break;
+			case KeyEvent.VK_D: commands.put("RIGHT", false); break;
+			case KeyEvent.VK_SHIFT: commands.put("SHIFT", false); break;
+			case KeyEvent.VK_SPACE: commands.put("SPACE", false); break;
+		}
 	}
 
 	@Override
