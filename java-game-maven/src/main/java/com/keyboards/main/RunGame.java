@@ -3,14 +3,25 @@ package com.keyboards.main;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.keyboards.engine.Game;
+import com.keyboards.game.Entity;
+import com.keyboards.game.Ghost;
+import com.keyboards.game.Player;
+import com.keyboards.game.Treasure;
+import com.keyboards.game.Zombie;
 import com.keyboards.tile.TileManager;
 
 public class RunGame implements Game {
+	
+	ArrayList<Entity> entities = new ArrayList<Entity>();
 
 	TileManager tileManager = new TileManager();
+	
+	Ghost ghost = new Ghost(tileManager.mapTiles);
+	Zombie zombie = new Zombie(tileManager.mapTiles);
 
 	/**
 	 * constructeur avec fichier source pour le help
@@ -28,6 +39,9 @@ public class RunGame implements Game {
 		} catch (IOException e) {
 			System.out.println("Help not available");
 		}
+		
+		entities.add(zombie);
+		entities.add(ghost);
 	}
 	
 	/**
@@ -37,7 +51,7 @@ public class RunGame implements Game {
 	 */
 	@Override
 	public void evolve(HashMap<String, Boolean> commands) {
-		// TODO
+		// TODO: Loric
 	}
 
 	/**

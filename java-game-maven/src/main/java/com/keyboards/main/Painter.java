@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import com.keyboards.engine.GamePainter;
+import com.keyboards.game.Entity;
 import com.keyboards.global.Global;
 import java.awt.Stroke;
 import java.awt.BasicStroke;
@@ -57,7 +58,13 @@ public class Painter implements GamePainter {
 		// draw grid for tests
         drawGrid(g);
 
+		// draw the tiles
 		game.tileManager.draw(g);
+		
+		// draw the entities
+		for (Entity e : game.entities) {
+			e.draw(g);
+		}
 	}
 
 	@Override

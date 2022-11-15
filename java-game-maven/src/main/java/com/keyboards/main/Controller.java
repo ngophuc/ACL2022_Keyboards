@@ -11,6 +11,7 @@ public class Controller implements GameController{
 
 
 	public Controller() {
+		//TODO: Loric
 	}
 
 	/**
@@ -28,7 +29,7 @@ public class Controller implements GameController{
 	 * met a jour les commandes en fonctions des touches appuyees
 	 */
 	public void keyPressed(KeyEvent e) {
-
+		//TODO: Loric
 	}
 
 	@Override
@@ -36,7 +37,7 @@ public class Controller implements GameController{
 	 * met a jour les commandes quand le joueur relache une touche
 	 */
 	public void keyReleased(KeyEvent e) {
-
+		//TODO: Loric
 	}
 
 	@Override
