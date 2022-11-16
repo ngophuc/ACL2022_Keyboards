@@ -183,6 +183,19 @@ public abstract class Character extends Entity{
 		// get the 4 tiles surrounding the x, y position to prevent checking collision with every tile
 		Tile[] surondingTiles = getSurroundingTiles(x, y);
 
+
+		// predict the next position of the character
+		Rectangle predictedHitBox = new Rectangle(this.hitbox);
+		predictedHitBox.x = x + hitBoxCornersOffset.x;
+		predictedHitBox.y = y + hitBoxCornersOffset.y;
+
+		// check if predicted solid box if out of the map
+		if (predictedHitBox.x < 0 || predictedHitBox.x + predictedHitBox.width > Global.WIDTH
+				|| predictedHitBox.y < 0 || predictedHitBox.y + predictedHitBox.height > Global.HEIGHT) {
+			return false;
+		}
+
+
 		for (int i = 0; i < surondingTiles.length; i++) {
 			if (surondingTiles[i] != null) {
 				// if the tile is solid, check if the character is colliding with it
@@ -265,15 +278,27 @@ public abstract class Character extends Entity{
 	 * Attack the given character
 	 */
 	public void attack(Character character) {
-		// TODO: Elsa
-        System.out.println(this + " attacked " + character + " with damage: " + attackDamage);
+		character.health -= attackDamage;
+		if (character.health <= 0) {
+			character.die();
+		}
+		System.out.println(this + " attacked " + character + " with damage: " + attackDamage + ", character health: " + character.health);
     }
 	
 	protected abstract void die();
 
 	public void draw(Graphics2D g) {
         if (Global.DEBUG) {
-            // draw a filled circle centered at x, y
+            // fill suronding squares with semi transparent yellow
+            g.setColor(new Color(255, 255, 0, 100));
+            int[][] surroundingColsRows = getSurroundingColsRows();
+            for (int i = 0; i < surroundingColsRows.length; i++) {
+                int col = surroundingColsRows[i][0];
+                int row = surroundingColsRows[i][1];
+                g.fillRect(col * Global.TILE_SIZE, row * Global.TILE_SIZE, Global.TILE_SIZE, Global.TILE_SIZE);
+            }
+
+			// draw a filled circle centered at x, y
         	g.setColor(Color.RED);
 			int r = 5;
 			g.fillOval(position.x - r, position.y - r, r * 2, r * 2);
@@ -285,15 +310,6 @@ public abstract class Character extends Entity{
         	// draw solidbox
         	g.setColor(Color.GREEN);
         	g.drawRect(solidBox.x, solidBox.y, solidBox.width, solidBox.height);
-
-            // fill suronding squares with semi transparent yellow
-            g.setColor(new Color(255, 255, 0, 100));
-            int[][] surroundingColsRows = getSurroundingColsRows();
-            for (int i = 0; i < surroundingColsRows.length; i++) {
-                int col = surroundingColsRows[i][0];
-                int row = surroundingColsRows[i][1];
-                g.fillRect(col * Global.TILE_SIZE, row * Global.TILE_SIZE, Global.TILE_SIZE, Global.TILE_SIZE);
-            }
         }
     }
 }

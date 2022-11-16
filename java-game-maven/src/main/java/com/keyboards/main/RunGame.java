@@ -101,8 +101,14 @@ public class RunGame implements Game {
 			player.spriteCounter = 0;
 		}
 		
-//		zombie.getPath(player);
 		zombie.moveTowards(player);
+		if (zombie.collidesWith(player)) {
+			zombie.attack(player);
+		}
+		// ghost.moveTowards(player);
+		// if (ghost.collidesWith(player)) {
+		// 	ghost.attack(player);
+		// }
 		
 //		System.out.println("sprite counter : " + player.spriteCounter + " sprite num : " + player.spriteNum);
 	}
