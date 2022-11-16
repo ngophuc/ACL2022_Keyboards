@@ -20,9 +20,10 @@ public class RunGame implements Game {
 
 	TileManager tileManager = new TileManager();
 	
+	Player player = new Player(tileManager.mapTiles);
 	Ghost ghost = new Ghost(tileManager.mapTiles);
 	Zombie zombie = new Zombie(tileManager.mapTiles);
-
+	
 	/**
 	 * constructeur avec fichier source pour le help
 	 * 
@@ -40,6 +41,7 @@ public class RunGame implements Game {
 			System.out.println("Help not available");
 		}
 		
+		entities.add(player);
 		entities.add(zombie);
 		entities.add(ghost);
 	}

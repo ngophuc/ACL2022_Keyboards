@@ -7,9 +7,14 @@ import com.keyboards.engine.GameController;
 
 public class Controller implements GameController{
 
+	/**
+	 * HasMap of pressed keys
+	 */
 	private HashMap<String, Boolean> commands = new HashMap<String, Boolean>();
 
-
+	/**
+	 * Constructor for the controller
+	 */
 	public Controller() {
 		commands.put("UP", false);
 		commands.put("DOWN", false);
@@ -17,13 +22,27 @@ public class Controller implements GameController{
 		commands.put("RIGHT", false);
 		commands.put("SPACE", false);
 		commands.put("SHIFT", false);
+
 	}
 
 	/**
-	 * quand on demande les commandes, le controleur retourne la commande en
-	 * cours
+	 * Returns true only if no commands are pressed
 	 * 
-	 * @return commande faite par le joueur
+	 * @return bool
+	 */
+	public static boolean isIdle(HashMap<String, Boolean> commands) {
+		for (String key : commands.keySet()) {
+			if (commands.get(key) == true) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Get the commands HashMap
+	 * 
+	 * @return Commands pressed by the user
 	 */
 	public HashMap<String, Boolean> getCommand() {
 		return this.commands;
@@ -31,9 +50,10 @@ public class Controller implements GameController{
 
 	@Override
 	/**
-	 * met a jour les commandes en fonctions des touches appuyees
+	 * Update the commands HashMap when a key is pressed by the user
 	 */
 	public void keyPressed(KeyEvent e) {
+
 		switch (e.getKeyCode()) {
 			case KeyEvent.VK_Z: commands.put("UP", true); break;
 			case KeyEvent.VK_S: commands.put("DOWN", true); break;
@@ -42,13 +62,15 @@ public class Controller implements GameController{
 			case KeyEvent.VK_SHIFT: commands.put("SHIFT", true); break;
 			case KeyEvent.VK_SPACE: commands.put("SPACE", true); break;
 		}
+
 	}
 
 	@Override
 	/**
-	 * met a jour les commandes quand le joueur relache une touche
+	 * Update the commands HashMap when a key is released by the user
 	 */
 	public void keyReleased(KeyEvent e) {
+		
 		switch (e.getKeyCode()) {
 			case KeyEvent.VK_Z: commands.put("UP", false); break;
 			case KeyEvent.VK_S: commands.put("DOWN", false); break;
@@ -57,11 +79,12 @@ public class Controller implements GameController{
 			case KeyEvent.VK_SHIFT: commands.put("SHIFT", false); break;
 			case KeyEvent.VK_SPACE: commands.put("SPACE", false); break;
 		}
+
 	}
 
 	@Override
 	/**
-	 * ne fait rien
+	 * Do nothing
 	 */
 	public void keyTyped(KeyEvent e) {
 
