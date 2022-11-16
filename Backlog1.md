@@ -20,3 +20,7 @@
 ## Diagramme de classes
 
 ![Diagramme de classes](images/ClassDiagramSprint1.png)
+
+---
+
+> Questions/Remarques : Dans le diagramme de classes : Map est initialisé quand ? Ckoi le type Point ? Comment gérer les déplacements des monstres ?
