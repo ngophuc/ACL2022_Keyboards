@@ -3,7 +3,12 @@ package com.keyboards.tile;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.Buffer;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
@@ -20,9 +25,20 @@ public class TileManager {
 		mapTiles = new Tile[Global.ROW_NUM][Global.COL_NUM];
 		
 		loadTileArrayFromDir("res/tiles");
+		System.out.println("TileManager: " + tilesImages.size() + " tiles loaded");
 
-		initMap();
-		System.out.println("Map initialized");
+		initMapFromFile("res/mapsFile/test.txt");
+
+		System.out.println("Nb of rows: " + mapTiles.length);
+		System.out.println("Nb of cols: " + mapTiles[0].length);
+
+		// print map tiles
+		for (int i = 0; i < mapTiles.length; i++) {
+			for (int j = 0; j < mapTiles[0].length; j++) {
+				System.out.print(mapTiles[i][j] + " ");
+			}
+			System.out.println();
+		}
 	}
 	
 	private BufferedImage loadTileImage(File file) {
@@ -83,6 +99,70 @@ public class TileManager {
 					mapTiles[5][i] = new Tile(5, i, tileImage, new Rectangle(i * Global.TILE_SIZE, 5 * Global.TILE_SIZE, Global.TILE_SIZE, Global.TILE_SIZE));
 				}
 			}
+		}
+	}
+
+	private int getNbOfLine(String filePath) throws IOException {
+		int nbLine = 0;
+		BufferedReader br = new BufferedReader(new FileReader(filePath));
+		while (br.readLine() != null) {
+			nbLine++;
+		}
+		br.close();
+
+		return nbLine;
+	}
+
+	private void initMapFromFile(String filePath) {
+	    System.out.println("Initializing map...");
+
+		try {
+			File file = new File(filePath);
+			BufferedReader br = new BufferedReader(new FileReader(file));
+
+			if (getNbOfLine(filePath) != Global.ROW_NUM) {
+				br.close();
+				throw new Exception("ERROR: invalid map file (wrong number of rows)");
+			}
+
+			String line;
+			int row = 0;
+			while ((line = br.readLine()) != null) {
+				System.out.println(line);
+
+				// split line on space
+				String[] lineSplit = line.split(" ");
+
+				if (lineSplit.length != Global.COL_NUM) {
+					br.close();
+					throw new Exception("ERROR: invalid map file (wrong number of columns on line " + row + ")");
+				}
+	
+				for (int col = 0; col < lineSplit.length; col++) {
+					int tileIndex = Integer.parseInt(lineSplit[col]);
+
+					if (tileIndex >= tilesImages.size()) {
+						br.close();
+						throw new Exception("ERROR: invalid map file (invalid tile index on line " + row + ")");
+					}
+
+					if (tileIndex == -1) {
+						mapTiles[row][col] = new Tile(row, col, null);
+					} else {
+						BufferedImage tileImage;
+						tileImage = tilesImages.get(tileIndex);
+						mapTiles[row][col] = new Tile(row, col, tileImage, new Rectangle(col * Global.TILE_SIZE, row * Global.TILE_SIZE, Global.TILE_SIZE, Global.TILE_SIZE));
+					}
+				}
+
+				row++;
+			}
+			br.close();
+
+			System.out.println("Map initialized");
+		} catch (Exception e) {
+			System.out.println("ERROR: could not load file: " + filePath);
+			System.err.println(e);
 		}
 	}
 
