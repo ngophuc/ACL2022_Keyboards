@@ -23,6 +23,7 @@ public class Controller implements GameController{
 		commands.put("RIGHT", false);
 		commands.put("SPACE", false);
 		commands.put("SHIFT", false);
+		commands.put("ATTACK", false);
 
 	}
 
@@ -62,6 +63,7 @@ public class Controller implements GameController{
 			case KeyEvent.VK_D: commands.put("RIGHT", true); break;
 			case KeyEvent.VK_SHIFT: commands.put("SHIFT", true); break;
 			case KeyEvent.VK_SPACE: commands.put("SPACE", true); break;
+			case KeyEvent.VK_E: commands.put("ATTACK", true); break;
 		}
 
 	}
@@ -79,6 +81,7 @@ public class Controller implements GameController{
 			case KeyEvent.VK_D: commands.put("RIGHT", false); break;
 			case KeyEvent.VK_SHIFT: commands.put("SHIFT", false); break;
 			case KeyEvent.VK_SPACE: commands.put("SPACE", false); break;
+			case KeyEvent.VK_E: commands.put("ATTACK", false); break;
 		}
 
 	}
