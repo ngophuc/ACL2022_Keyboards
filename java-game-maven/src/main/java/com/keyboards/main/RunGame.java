@@ -10,6 +10,10 @@ import com.keyboards.engine.Game;
 import com.keyboards.game.Entity;
 import com.keyboards.game.Ghost;
 import com.keyboards.game.Player;
+import com.keyboards.game.Potion_attaque;
+import com.keyboards.game.Potion_bouclier;
+import com.keyboards.game.Potion_vie;
+import com.keyboards.game.Potion_vitesse;
 import com.keyboards.game.Treasure;
 import com.keyboards.game.Zombie;
 import com.keyboards.tile.TileManager;
@@ -23,7 +27,11 @@ public class RunGame implements Game {
 	Player player = new Player(tileManager.mapTiles);
 	Ghost ghost = new Ghost(tileManager.mapTiles);
 	Zombie zombie = new Zombie(tileManager.mapTiles);
-	
+	Treasure tresor = new Treasure(tileManager.mapTiles,15,player);
+	Potion_vie potion_vie=new Potion_vie(tileManager.mapTiles,15,player);
+	Potion_attaque potion_attaque=new Potion_attaque(tileManager.mapTiles,15,player);
+	Potion_bouclier potion_bouclier=new Potion_bouclier(tileManager.mapTiles,15,player);
+	Potion_vitesse potion_vitesse=new Potion_vitesse(tileManager.mapTiles,15,player);
 	/**
 	 * constructeur avec fichier source pour le help
 	 * 
@@ -44,6 +52,11 @@ public class RunGame implements Game {
 		entities.add(player);
 		entities.add(zombie);
 		entities.add(ghost);
+		entities.add(tresor);
+		entities.add(potion_vie);
+		entities.add(potion_attaque);
+		entities.add(potion_vitesse);
+		entities.add(potion_bouclier);
 	}
 	
 	/**
