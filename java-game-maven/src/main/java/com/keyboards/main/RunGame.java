@@ -88,9 +88,13 @@ public class RunGame implements Game {
 			// commandsString += "IDLE ";
 			player.idle();
 		}
+		
+		if (commands.get("ATTACK")) {
+			player.isAttacking = true;
+		}
 
 		// System.out.println("Commandes : " + commandsString);
-		
+		/*
 		player.spriteCounter++;
 		if (player.spriteCounter > 5) {
 			if (player.spriteNum < player.NUMBER_OF_FRAME_IN_WALK_ANIM - 1) {
@@ -100,6 +104,7 @@ public class RunGame implements Game {
 			}
 			player.spriteCounter = 0;
 		}
+		*/
 		
 		zombie.moveTowards(player);
 		if (zombie.collidesWith(player)) {
