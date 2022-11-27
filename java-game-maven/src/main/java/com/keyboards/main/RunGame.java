@@ -10,6 +10,10 @@ import com.keyboards.engine.Game;
 import com.keyboards.game.Entity;
 import com.keyboards.game.Ghost;
 import com.keyboards.game.Player;
+import com.keyboards.game.Attack_potion;
+import com.keyboards.game.Shield_potion;
+import com.keyboards.game.Life_potion;
+import com.keyboards.game.Speed_potion;
 import com.keyboards.game.Treasure;
 import com.keyboards.game.Zombie;
 import com.keyboards.tile.TileManager;
@@ -23,7 +27,11 @@ public class RunGame implements Game {
 	Player player = new Player(tileManager.mapTiles);
 	Ghost ghost = new Ghost(tileManager.mapTiles);
 	Zombie zombie = new Zombie(tileManager.mapTiles);
-	
+	Treasure tresor = new Treasure(tileManager.mapTiles,15,player);
+	Life_potion life_potion=new Life_potion(tileManager.mapTiles,15,player);
+	Attack_potion attack_potion=new Attack_potion(tileManager.mapTiles,15,player);
+	Shield_potion shield_potion=new Shield_potion(tileManager.mapTiles,15,player);
+	Speed_potion speed_potion=new Speed_potion(tileManager.mapTiles,15,player);
 	/**
 	 * constructeur avec fichier source pour le help
 	 * 
@@ -44,6 +52,11 @@ public class RunGame implements Game {
 		entities.add(player);
 		entities.add(zombie);
 		entities.add(ghost);
+		entities.add(tresor);
+		entities.add(life_potion);
+		entities.add(attack_potion);
+		entities.add(speed_potion);
+		entities.add(shield_potion);
 	}
 	
 	/**
@@ -88,7 +101,7 @@ public class RunGame implements Game {
 			// commandsString += "IDLE ";
 			player.idle();
 		}
-		
+
 		if (commands.get("ATTACK")) {
 			player.isAttacking = true;
 		}
