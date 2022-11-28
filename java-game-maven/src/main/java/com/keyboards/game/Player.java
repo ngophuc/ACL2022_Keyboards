@@ -44,6 +44,7 @@ public class Player extends Character {
     }
 
     protected void initStats() {
+        hasInventory = true;
         health = 100;
         attackDamage = 25;
         speed = 1;
