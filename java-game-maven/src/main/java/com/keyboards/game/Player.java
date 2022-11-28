@@ -46,7 +46,7 @@ public class Player extends Character {
 
     protected void initStats() {
         health = 100;
-        attackDamage = 20;
+        attackDamage = 25;
         speed = 1;
         sprintSpeed = 2;
     }
@@ -54,6 +54,13 @@ public class Player extends Character {
     public void initHitBox() {
         hitBoxCornersOffset = new Point(16*2, 13*2);
         hitbox = new Rectangle(position.x + hitBoxCornersOffset.x, position.y + hitBoxCornersOffset.y, 15*2, 20*2);
+
+        attackLeftHitBoxCornersOffset = new Point(4*2,15*2);
+        attackLeftHitbox = new Rectangle(position.x + attackLeftHitBoxCornersOffset.x, position.y + attackLeftHitBoxCornersOffset.y, 17*2, 21*2);
+        
+        attackRightHitBoxCornersOffset = new Point(27*2,15*2);
+        attackRightHitbox = new Rectangle(position.x + attackRightHitBoxCornersOffset.x, position.y + attackRightHitBoxCornersOffset.y, 17*2, 21*2);
+    
     }
 
     public void initSolidBox() {

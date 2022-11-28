@@ -6,13 +6,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.IconifyAction;
+
 import com.keyboards.engine.Game;
 import com.keyboards.game.Entity;
 import com.keyboards.game.Ghost;
 import com.keyboards.game.Player;
 import com.keyboards.game.Attack_potion;
+import com.keyboards.game.Character;
 import com.keyboards.game.Shield_potion;
 import com.keyboards.game.Life_potion;
+import com.keyboards.game.Mob;
 import com.keyboards.game.Speed_potion;
 import com.keyboards.game.Treasure;
 import com.keyboards.game.Zombie;
@@ -21,6 +25,7 @@ import com.keyboards.tile.TileManager;
 public class RunGame implements Game {
 	
 	ArrayList<Entity> entities = new ArrayList<Entity>();
+	ArrayList<Mob> mobs = new ArrayList<Mob>();
 
 	TileManager tileManager = new TileManager();
 	
@@ -48,10 +53,15 @@ public class RunGame implements Game {
 		} catch (IOException e) {
 			System.out.println("Help not available");
 		}
+
+		mobs.add(zombie);
+		mobs.add(ghost);
+		
+		for (Entity mob : mobs) {
+			entities.add(mob);
+		}
 		
 		entities.add(player);
-		entities.add(zombie);
-		entities.add(ghost);
 		entities.add(tresor);
 		entities.add(life_potion);
 		entities.add(attack_potion);
@@ -106,6 +116,15 @@ public class RunGame implements Game {
 			player.isAttacking = true;
 		}
 
+		if(player.isAttacking) {
+			for (Mob mob : mobs) {
+				if (player.canAttack(mob)) {
+					System.out.println("inAttackRange");
+					player.attack(mob);
+				}
+			}
+		}
+		
 		// System.out.println("Commandes : " + commandsString);
 		/*
 		player.spriteCounter++;

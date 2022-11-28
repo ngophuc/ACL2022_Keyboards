@@ -2,6 +2,7 @@ package com.keyboards.game;
 
 import java.awt.Rectangle;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.Color;
 
 import com.keyboards.global.Global;
@@ -13,6 +14,9 @@ public abstract class Character extends Entity{
 	public int speed;
 	int sprintSpeed;
 	public boolean isSprinting = false;
+	
+    public boolean isAttacking = false;
+
 
 	public Tile[][] mapTiles;
 
@@ -22,6 +26,11 @@ public abstract class Character extends Entity{
 
 	public int lastDirection = RIGHT;
 	public int direction = IDLE;
+	
+	public Rectangle attackLeftHitbox = new Rectangle();
+	public Point attackLeftHitBoxCornersOffset = new Point();
+	public Rectangle attackRightHitbox = new Rectangle();
+	public Point attackRightHitBoxCornersOffset = new Point();
 
 	public Character(int col, int row, Tile[][] mapTiles) {
 		this.mapTiles = mapTiles;
@@ -169,6 +178,13 @@ public abstract class Character extends Entity{
 			// update the solid box
 			this.solidBox.x = x + solidBoxCornersOffset.x;
 			this.solidBox.y = y + solidBoxCornersOffset.y;
+			// update attack left hit box
+			this.attackLeftHitbox.x = x + attackLeftHitBoxCornersOffset.x;
+			this.attackLeftHitbox.y = y + attackLeftHitBoxCornersOffset.y;
+			// update attack right hit box
+			this.attackRightHitbox.x = x + attackRightHitBoxCornersOffset.x;
+			this.attackRightHitbox.y = y + attackRightHitBoxCornersOffset.y;
+			
 			// System.out.println(this + " moved to x: " + x + " y: " + y + " with speed: " + speed);
 		}
 		// System.out.println(this + " could not move to x: " + x + " y: " + y);
@@ -285,11 +301,22 @@ public abstract class Character extends Entity{
 		System.out.println(this + " attacked " + character + " with damage: " + attackDamage + ", character health: " + character.health);
     }
 	
+	public boolean canAttack(Character character){
+		if (direction == LEFT || lastDirection == LEFT) {
+			return attackLeftHitbox.intersects(character.hitbox);
+		}
+		if (direction == RIGHT || lastDirection == RIGHT) {
+			return attackRightHitbox.intersects(character.hitbox);
+		}
+		return false;
+	}
+	
 	protected abstract void die();
 
 	public void draw(Graphics2D g) {
         if (Global.DEBUG) {
             // fill suronding squares with semi transparent yellow
+            /*
             g.setColor(new Color(255, 255, 0, 100));
             int[][] surroundingColsRows = getSurroundingColsRows();
             for (int i = 0; i < surroundingColsRows.length; i++) {
@@ -297,7 +324,7 @@ public abstract class Character extends Entity{
                 int row = surroundingColsRows[i][1];
                 g.fillRect(col * Global.TILE_SIZE, row * Global.TILE_SIZE, Global.TILE_SIZE, Global.TILE_SIZE);
             }
-
+            */
 			// draw a filled circle centered at x, y
         	g.setColor(Color.RED);
 			int r = 5;
@@ -310,6 +337,17 @@ public abstract class Character extends Entity{
         	// draw solidbox
         	g.setColor(Color.GREEN);
         	g.drawRect(solidBox.x, solidBox.y, solidBox.width, solidBox.height);
+        	
+        	// draw attackHitbox
+        	if (true) {
+        		g.setColor(Color.RED);
+        		if (direction == LEFT || lastDirection == LEFT) {
+        			g.drawRect(attackLeftHitbox.x, attackLeftHitbox.y, attackLeftHitbox.width, attackLeftHitbox.height);
+        		}
+        		if (direction == RIGHT || lastDirection == RIGHT) {
+        			g.drawRect(attackRightHitbox.x, attackRightHitbox.y, attackRightHitbox.width, attackRightHitbox.height);
+        		}
+        	}
         }
     }
 }
