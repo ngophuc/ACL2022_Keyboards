@@ -4,47 +4,45 @@ import javax.swing.JFrame;
 
 
 /**
- * @author Horatiu Cirstea, Vincent Thomas
- *
- * interface graphique avec son controller et son afficheur
- *
+ * Based on the code of Horatiu Cirstea and Vincent Thomas
  */
 public class GraphicalInterface  {
 
 	/**
-	 * le Panel pour l'afficheur
+	 * the panel to draw on
 	 */
 	private DrawingPanel panel;
 	
 	/**
-	 * la construction de l'interface graphique: JFrame avec panel pour le game
-	 * 
-	 * @param gamePainter l'afficheur a utiliser dans le moteur
-	 * @param gameController l'afficheur a utiliser dans le moteur
-	 * 
+	 * the constructor for the gui: JFrame with a DrawingPanel for the game
 	 */
-	public GraphicalInterface(GamePainter gamePainter, GameController gameController){
-		JFrame f=new JFrame();
+	public GraphicalInterface(GamePainter gamePainter, GameController gameController, GameMouseHandler gameMouseHandler) {
+		JFrame f = new JFrame();
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setSize(gamePainter.getWidth(),gamePainter.getHeight());
-//		f.setResizable(false);
+		f.setResizable(false);
 		f.setLocationRelativeTo(null);
 		
-		// attacher le panel contenant l'afficheur du game
+		// the panel to draw on
 		this.panel = new DrawingPanel(gamePainter);
 		f.setContentPane(this.panel);
 		
-		// attacher controller au panel du game
-		this.panel.addKeyListener(gameController);	
+		// bind the controller to the panel
+		this.panel.addKeyListener(gameController);
+
+		// bind the mouse handler to the panel
+		this.panel.addMouseListener(gameMouseHandler);
+		this.panel.addMouseMotionListener(gameMouseHandler);
 		
 		f.pack();
 		f.setVisible(true);
 		f.getContentPane().setFocusable(true);
 		f.getContentPane().requestFocus();
+		f.getContentPane().setFocusTraversalKeysEnabled(false); // need to set to false for the TAB key to work
 	}
 	
 	/**
-	 * mise a jour du dessin
+	 * update the drawing
 	 */
 	public void paint() {
 		this.panel.drawGame();	

@@ -3,24 +3,19 @@ package com.keyboards.engine;
 import java.util.HashMap;
 
 /**
- * @author Horatiu Cirstea, Vincent Thomas
- *
- *         un jeu qui peut evoluer (avant de se terminer) sur un plateau width x
- *         height
+ * Based on the code of Horatiu Cirstea and Vincent Thomas
  */
 public interface Game {
 
+	
 	/**
-	 * methode qui contient l'evolution du jeu en fonction de la commande
-	 * 
-	 * @param userCmd
-	 *            commande utilisateur
+	 * Update the game depending on the commands
 	 */
-	public void evolve(HashMap<String, Boolean> userCmd);
-
+	public void evolve(HashMap<String, Boolean> userCmd, GameMouseHandler mouseHandler);
+	
 	/**
-	 * @return true si et seulement si le jeu est fini
+	 * @return true if the game is over
 	 */
 	public boolean isFinished();
-
+	
 }

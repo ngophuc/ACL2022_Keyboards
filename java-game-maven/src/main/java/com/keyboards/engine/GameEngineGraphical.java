@@ -3,63 +3,51 @@ package com.keyboards.engine;
 import java.util.HashMap;
 
 /**
- * @author Horatiu Cirstea, Vincent Thomas
- *
- * moteur de game generique.
- * On lui passe un game et un afficheur et il permet d'executer un game.
+ * Based on the code of Horatiu Cirstea and Vincent Thomas
  */
 public class GameEngineGraphical {
 
 	/**
-	 * le game a executer
+	 * the game to run
 	 */
 	private Game game;
 
 	/**
-	 * l'afficheur a utiliser pour le rendu
+	 * the painter to use
 	 */
 	private GamePainter gamePainter;
 
 	/**
-	 * le controlleur a utiliser pour recuperer les commandes
+	 * the controller to use
 	 */
 	private GameController gameController;
 
 	/**
-	 * l'interface graphique
+	 * the graphical user interface
 	 */
 	private GraphicalInterface gui;
 
 	private int fps;
+	private GameMouseHandler mouseHandler;
 
-	/**
-	 * construit un moteur
-	 * 
-	 * @param game
-	 *            game a lancer
-	 * @param gamePainter
-	 *            afficheur a utiliser
-	 * @param gameController
-	 *            controlleur a utiliser
-	 *            
-	 */
-	public GameEngineGraphical(Game game, GamePainter gamePainter, GameController gameController, int fps) {
+	public GameEngineGraphical(Game game, GamePainter gamePainter, GameController gameController, GameMouseHandler mouseHandler, int fps) {
 		// creation du game
 		this.game = game;
 		this.gamePainter = gamePainter;
 		this.gameController = gameController;
+		this.mouseHandler = mouseHandler;
 		this.fps = fps;
 	}
 
 	/**
-	 * permet de lancer le game
+	 * run the game
 	 */
 	public void run() throws InterruptedException {
 
 		// creation de l'interface graphique
-		this.gui = new GraphicalInterface(this.gamePainter,this.gameController);
+		this.gui = new GraphicalInterface(this.gamePainter, this.gameController, this.mouseHandler);
 
-		double updateInterval = 1000000000 / this.fps;
+		double updateInterval = 1000000000 / this.fps; // in nanoseconds
 		double delta = 0;
 		long lastTime = System.nanoTime();
 		long currentTime = 0;
@@ -80,7 +68,7 @@ public class GameEngineGraphical {
 				HashMap<String, Boolean> userCmd = this.gameController.getCommand();
 
 				// fait evoluer le game
-				this.game.evolve(userCmd);
+				this.game.evolve(userCmd, mouseHandler);
 
 				// affiche le game
 				this.gui.paint();

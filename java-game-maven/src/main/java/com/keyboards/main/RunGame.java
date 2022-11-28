@@ -9,6 +9,7 @@ import java.util.HashMap;
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane.IconifyAction;
 
 import com.keyboards.engine.Game;
+import com.keyboards.engine.GameMouseHandler;
 import com.keyboards.game.Entity;
 import com.keyboards.game.Ghost;
 import com.keyboards.game.Player;
@@ -32,14 +33,14 @@ public class RunGame implements Game {
 	Player player = new Player(tileManager.mapTiles);
 	Ghost ghost = new Ghost(tileManager.mapTiles);
 	Zombie zombie = new Zombie(tileManager.mapTiles);
-	Treasure tresor = new Treasure(tileManager.mapTiles,15,player);
-	Life_potion life_potion=new Life_potion(tileManager.mapTiles,15,player);
-	Attack_potion attack_potion=new Attack_potion(tileManager.mapTiles,15,player);
-	Shield_potion shield_potion=new Shield_potion(tileManager.mapTiles,15,player);
-	Speed_potion speed_potion=new Speed_potion(tileManager.mapTiles,15,player);
+	Treasure tresor = new Treasure(tileManager.mapTiles, 15, player);
+	Life_potion life_potion = new Life_potion(tileManager.mapTiles, 15, player);
+	Attack_potion attack_potion = new Attack_potion(tileManager.mapTiles, 15, player);
+	Shield_potion shield_potion = new Shield_potion(tileManager.mapTiles, 15, player);
+	Speed_potion speed_potion = new Speed_potion(tileManager.mapTiles, 15, player);
+
 	/**
-	 * constructeur avec fichier source pour le help
-	 * 
+	 * constructor with source file for help
 	 */
 	public RunGame(String source) {
 		BufferedReader helpReader;
@@ -70,12 +71,10 @@ public class RunGame implements Game {
 	}
 	
 	/**
-	 * faire evoluer le jeu suite a une commande
-	 * 
-	 * @param commande
+	 * constructor with source file for help
 	 */
 	@Override
-	public void evolve(HashMap<String, Boolean> commands) {
+	public void evolve(HashMap<String, Boolean> commands, GameMouseHandler mouse) {
 		// String commandsString = "";
 		
 		if (commands.get("UP")) {
@@ -124,19 +123,10 @@ public class RunGame implements Game {
 				}
 			}
 		}
-		
-		// System.out.println("Commandes : " + commandsString);
-		/*
-		player.spriteCounter++;
-		if (player.spriteCounter > 5) {
-			if (player.spriteNum < player.NUMBER_OF_FRAME_IN_WALK_ANIM - 1) {
-				player.spriteNum++;
-			} else {
-				player.spriteNum = 0;
-			}
-			player.spriteCounter = 0;
+
+		if (mouse.getButton() != -1) {
+			System.out.println("Mouse button " + mouse.getButton() + " at " + mouse.getX() + ", " + mouse.getY());
 		}
-		*/
 		
 		zombie.moveTowards(player);
 		if (zombie.collidesWith(player)) {
@@ -147,11 +137,11 @@ public class RunGame implements Game {
 		// 	ghost.attack(player);
 		// }
 		
-//		System.out.println("sprite counter : " + player.spriteCounter + " sprite num : " + player.spriteNum);
+		// System.out.println("sprite counter : " + player.spriteCounter + " sprite num : " + player.spriteNum);
 	}
 
 	/**
-	 * verifier si le jeu est fini
+	 * check if the game is over
 	 */
 	@Override
 	public boolean isFinished() {
