@@ -4,28 +4,26 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
 
 import com.keyboards.global.Global;
-import com.keyboards.graphics.Sprite;
 import com.keyboards.graphics.SpriteSheet;
 import com.keyboards.tile.Tile;
 
 public class Attack_potion extends Item {
 
-	public Attack_potion(int col, int row, Tile[][] mapTiles) {
-		//TODO place the object in the given col and row
-		super(col,row,mapTiles);
+	public Attack_potion(int col, int row, Tile[][] mapTiles, boolean isInInventory) {
+		super(col, row, mapTiles, isInInventory);
+		this.skillIncrease = 1;
+	}
+	
+	public Attack_potion (Tile[][] mapTiles, float distance_min, Player p, boolean isInInventory) {
+		super(mapTiles, distance_min, p, isInInventory);
+		this.skillIncrease = 1;
 	}
 
-	public void use(Player player) {
-		player.attackDamage=this.augmentation_competence;	
-	}
-
-
-	public Attack_potion (Tile[][] mapTiles,float distance_min,Player p) {
-		super(mapTiles,distance_min,p);
-
+	public void use(Character character) {
+		character.attackDamage += this.skillIncrease;
+		System.out.println("used " + this.getClass().getSimpleName());
 	}
 
 	public void initHitBox() {
@@ -39,23 +37,27 @@ public class Attack_potion extends Item {
 	}
 
 	protected void initSprites() {
-		SpriteSheet Sprite = new SpriteSheet("res/Objects/Attack-potion.png",32,32);
-
+		SpriteSheet Sprite = new SpriteSheet("res/Objects/Attack-potion.png", 32, 32);
 
 		sprite = Sprite.getSpriteArray();
 		this.image = sprite[0].image;
 	}
 
 
-	public void draw(Graphics2D g) {
-		// TODO
+	public void draw(Graphics2D g, int x, int y) {
+		g.drawImage(this.image, x, y,this.image.getHeight(),image.getWidth(), null);
+    }
 
+    public void draw(Graphics2D g) {
+        g.drawImage(this.image, position.x-this.image.getHeight()/2, position.y-this.image.getWidth()/2,this.image.getHeight(),image.getWidth(), null);
 
-		g.drawImage(this.image, position.x-this.image.getHeight()/2, position.y-this.image.getWidth()/2,this.image.getHeight(),image.getWidth(), null);
-		g.setColor(Color.BLUE);
-		g.drawRect(hitbox.x, hitbox.y, hitbox.width, hitbox.height);
-	}
-
+		if (Global.DEBUG) {
+			g.setColor(Color.BLUE);
+			g.drawRect(hitbox.x, hitbox.y, hitbox.width, hitbox.height);
+			g.setColor(Color.RED);
+			g.drawRect(solidBox.x, solidBox.y, solidBox.width, solidBox.height);
+		}
+    }
 }
 
 

@@ -10,5 +10,8 @@ public class Global {
 	public static final int WIDTH = COL_NUM * TILE_SIZE;
 	public static final int HEIGHT = ROW_NUM * TILE_SIZE;
 	
+	public static final int FPS = 60;
+	public static final int KEY_COOLDOWN = 15; // in frames
+
 	public static boolean DEBUG = false;
 }

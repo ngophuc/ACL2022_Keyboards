@@ -3,9 +3,14 @@ package com.keyboards.main;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.util.Collections;
+import java.util.Comparator;
 
 import com.keyboards.engine.GamePainter;
+import com.keyboards.game.Chest;
 import com.keyboards.game.Entity;
+import com.keyboards.game.Item;
+import com.keyboards.game.Player;
 import com.keyboards.global.Global;
 import java.awt.Stroke;
 import java.awt.BasicStroke;
@@ -61,9 +66,39 @@ public class Painter implements GamePainter {
 		// draw the tiles
 		game.tileManager.draw(g);
 		
+		// sort the entities by y position to draw them in the right order
+		Collections.sort(game.entities, new Comparator<Entity>() {
+			@Override
+			public int compare(Entity e1, Entity e2) {
+				return e1.getY() - e2.getY();
+			}
+		});
+		
 		// draw the entities
-		for (Entity e : game.entities) {
-			e.draw(g);
+		for (int i = 0; i < game.entities.size(); i++) {
+			Entity e = game.entities.get(i);
+			if (e instanceof Item) {
+				// don't draw the item on the board if it's in the inventory
+				if (!((Item) e).isInInventory) {
+					((Item) e).draw(g);
+				} else {
+					// remove the item from the entities array if it's in the inventory
+					game.entities.remove(i);
+					i--;
+				}
+			} else {
+				e.draw(g);
+			}
+		}
+
+		// draw the opened inventory at the end for it to be on top of everything
+		if (game.inventoryOpen) {
+			for (Entity e : game.entities) {
+				if (e.hasInventory) {
+					if (e instanceof Player && ((Player) e).isInventoryOpen()) { ((Player) e).drawInventory(g); }
+					if (e instanceof Chest && ((Chest) e).isOpen()) { ((Chest) e).drawInventory(g); }
+				}
+			}
 		}
 	}
 

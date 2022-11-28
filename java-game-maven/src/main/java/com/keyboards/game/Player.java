@@ -4,7 +4,6 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 import com.keyboards.graphics.Sprite;
 import com.keyboards.graphics.SpriteSheet;
@@ -12,7 +11,7 @@ import com.keyboards.tile.Tile;
 
 
 public class Player extends Character {
-    ArrayList<Item> inventory = new ArrayList<Item>();
+    private Inventory inventory = new Inventory(this, 2, 6);
 
     public final int NUMBER_OF_FRAME_IN_WALK_ANIM = 6;
     public final int NUMBER_OF_FRAME_IN_ATTACK_ANIM = 4;
@@ -85,45 +84,47 @@ public class Player extends Character {
     }
 
     public void pickUp(Item item) {
-        inventory.add(item);
-        System.out.println("picked up item " + item);
+        if (!item.isInInventory) {
+            inventory.addItem(item);
+        } else {
+            System.out.println("inventory is full, cannot pick up item " + item.getClass().getName());
+        }
     }
 
     protected void die() {
-        System.out.println("player died");
+        // System.out.println("player died");
     }
 
+    public Inventory getInventory() { return inventory; }
+    public boolean isInventoryOpen() { return inventory.isOpen(); }
+    public void openInventory() { inventory.open(); }
+    public void closeInventory() { inventory.close(); }
+
+    public void drawInventory(Graphics2D g) { inventory.draw(g); }
+
     public void draw(Graphics2D g) {
-        // String directionString = "";
 
         BufferedImage image = null;
         
         if (direction == IDLE + RIGHT) {
             image = idleRight[spriteNum].image;
-        //    directionString = "idle right";
-
         } else if (direction == IDLE + LEFT) {
             image = idleLeft[spriteNum].image;
-        //    directionString = "idle left";
-
         } else if (direction == RIGHT) {
             image = walkRight[spriteNum].image;
-        //    directionString = "walk right";
-
         } else if (direction == LEFT) {
             image = walkLeft[spriteNum].image;
-        //    directionString = "walk left";
         }
-        
+
         if ((direction == LEFT || lastDirection == LEFT) && isAttacking) {
         	image = attackLeft[spriteAttack].image;
         } else if ((direction == RIGHT || lastDirection == RIGHT) && isAttacking) {
         	image = attackRight[spriteAttack].image;
         }
 
+        spriteCounter++;
         if (isAttacking) {
         	
-        	spriteCounter++;
     		if (spriteCounter > 5) {
     			if (spriteAttack < NUMBER_OF_FRAME_IN_ATTACK_ANIM - 1) {
     				spriteAttack++;
@@ -138,7 +139,6 @@ public class Player extends Character {
         	
         } else {
         	
-        	spriteCounter++;
     		if (spriteCounter > 5) {
     			if (spriteNum < NUMBER_OF_FRAME_IN_WALK_ANIM - 1) {
     				spriteNum++;
@@ -147,8 +147,7 @@ public class Player extends Character {
     			}
     			spriteCounter = 0;
     		}
-        	
-        	// System.out.println("direction: " + direction + " " + directionString);
+
         	g.drawImage(image, position.x, position.y, image.getHeight()*2, image.getWidth()*2, null);        	
         }
 

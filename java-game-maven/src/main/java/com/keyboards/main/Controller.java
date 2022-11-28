@@ -21,9 +21,11 @@ public class Controller implements GameController{
 		commands.put("DOWN", false);
 		commands.put("LEFT", false);
 		commands.put("RIGHT", false);
-		commands.put("SPACE", false);
 		commands.put("SHIFT", false);
 		commands.put("ATTACK", false);
+		commands.put("ESCAPE", false);
+		commands.put("TAB", false);
+		commands.put("INTERACT", false);
 
 	}
 
@@ -62,8 +64,10 @@ public class Controller implements GameController{
 			case KeyEvent.VK_Q: commands.put("LEFT", true); break;
 			case KeyEvent.VK_D: commands.put("RIGHT", true); break;
 			case KeyEvent.VK_SHIFT: commands.put("SHIFT", true); break;
-			case KeyEvent.VK_SPACE: commands.put("SPACE", true); break;
-			case KeyEvent.VK_E: commands.put("ATTACK", true); break;
+			case KeyEvent.VK_SPACE: commands.put("ATTACK", true); break;
+			case KeyEvent.VK_ESCAPE: commands.put("ESCAPE", true); break;
+			case KeyEvent.VK_TAB: commands.put("TAB", true); break;
+			case KeyEvent.VK_E: commands.put("INTERACT", true); break;
 		}
 
 	}
@@ -80,8 +84,10 @@ public class Controller implements GameController{
 			case KeyEvent.VK_Q: commands.put("LEFT", false); break;
 			case KeyEvent.VK_D: commands.put("RIGHT", false); break;
 			case KeyEvent.VK_SHIFT: commands.put("SHIFT", false); break;
-			case KeyEvent.VK_SPACE: commands.put("SPACE", false); break;
-			case KeyEvent.VK_E: commands.put("ATTACK", false); break;
+			case KeyEvent.VK_SPACE: commands.put("ATTACK", false); break;
+			case KeyEvent.VK_ESCAPE: commands.put("ESCAPE", false); break;
+			case KeyEvent.VK_TAB: commands.put("TAB", false); break;
+			case KeyEvent.VK_E: commands.put("INTERACT", false); break;
 		}
 
 	}
