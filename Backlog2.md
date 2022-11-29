@@ -21,3 +21,8 @@
 ## Diagramme de classes
 
 ![Diagramme de classes](images/ClassDiagramSprint2.png)
+
+
+## Diagramme de sequence
+
+![Diagramme de sequence](images/SequenceDiagramSprint2.jpg)
