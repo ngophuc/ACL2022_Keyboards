@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.keyboards.UI.UI;
 import com.keyboards.engine.Game;
 import com.keyboards.engine.GameMouseHandler;
 import com.keyboards.game.Entity;
@@ -29,7 +30,8 @@ public class RunGame implements Game {
 	ArrayList<Mob> mobs = new ArrayList<Mob>();
 
 	TileManager tileManager = new TileManager();
-
+	UI ui = new UI();
+	
 	int keyCooldown = Global.KEY_COOLDOWN;
 
 	boolean inventoryOpen = false;

@@ -34,6 +34,8 @@ public class Player extends Character {
     public int spriteNum = 0;
     public int spriteAttack=0;
     public int spriteCounter = 0;
+    
+    public final int maxHealth = 50;
 
     public Player(int col, int row, Tile[][] mapTiles) {
         super(col, row, mapTiles);
@@ -45,7 +47,7 @@ public class Player extends Character {
 
     protected void initStats() {
         hasInventory = true;
-        health = 100;
+        health = maxHealth;
         attackDamage = 25;
         speed = 1;
         sprintSpeed = 2;

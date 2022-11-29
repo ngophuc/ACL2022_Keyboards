@@ -91,6 +91,9 @@ public class Painter implements GamePainter {
 			}
 		}
 
+		//draw UI
+		game.ui.drawPlayerLife(g, game.player);
+		
 		// draw the opened inventory at the end for it to be on top of everything
 		if (game.inventoryOpen) {
 			for (Entity e : game.entities) {
