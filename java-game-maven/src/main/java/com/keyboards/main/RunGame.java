@@ -29,7 +29,7 @@ public class RunGame implements Game {
 	ArrayList<Entity> entities = new ArrayList<Entity>();
 	ArrayList<Mob> mobs = new ArrayList<Mob>();
 
-	TileManager tileManager = new TileManager();
+	TileManager tileManager = new TileManager("res/mapsFile/test1.txt");
 	UI ui = new UI();
 	
 	int keyCooldown = Global.KEY_COOLDOWN;

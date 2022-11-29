@@ -7,6 +7,9 @@ public class Global {
 	public static final int COL_NUM = 16;
 	public static final int ROW_NUM = 12;
 	
+	public static final int WORLD_COL_NUM = 50;
+	public static final int WORLD_ROW_NUM = 50;
+	
 	public static final int WIDTH = COL_NUM * TILE_SIZE;
 	public static final int HEIGHT = ROW_NUM * TILE_SIZE;
 	

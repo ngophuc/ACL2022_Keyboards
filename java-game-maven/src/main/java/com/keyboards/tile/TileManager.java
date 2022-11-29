@@ -20,25 +20,25 @@ public class TileManager {
 	public ArrayList<BufferedImage> tilesImages;
 	public Tile[][] mapTiles;
 
-	public TileManager() {
+	public TileManager(String mapFilePath) {
 		tilesImages = new ArrayList<BufferedImage>();
-		mapTiles = new Tile[Global.ROW_NUM][Global.COL_NUM];
+		mapTiles = new Tile[Global.WORLD_ROW_NUM][Global.WORLD_COL_NUM];
 		
-		loadTileArrayFromDir("res/tiles");
+		loadTileArrayFromDir("res/tiles-grass");
 		System.out.println("TileManager: " + tilesImages.size() + " tiles loaded");
 
-		initMapFromFile("res/mapsFile/test.txt");
+		initMapFromFile(mapFilePath);
 
 		System.out.println("Nb of rows: " + mapTiles.length);
 		System.out.println("Nb of cols: " + mapTiles[0].length);
 
 		// print map tiles
-		for (int i = 0; i < mapTiles.length; i++) {
-			for (int j = 0; j < mapTiles[0].length; j++) {
-				System.out.print(mapTiles[i][j] + " ");
-			}
-			System.out.println();
-		}
+//		for (int i = 0; i < mapTiles.length; i++) {
+//			for (int j = 0; j < mapTiles[0].length; j++) {
+//				System.out.print(mapTiles[i][j] + " "); 
+//			}
+//			System.out.println();
+//		}
 	}
 	
 	private BufferedImage loadTileImage(File file) {
@@ -84,8 +84,8 @@ public class TileManager {
 
 	private void initMap() {
 	    System.out.println("Initializing map...");
-		for (int row = 0; row < Global.ROW_NUM; row++) {
-			for (int col = 0; col < Global.COL_NUM; col++) {
+		for (int row = 0; row < Global.WORLD_ROW_NUM; row++) {
+			for (int col = 0; col < Global.WORLD_COL_NUM; col++) {
 				mapTiles[row][col] = new Tile(row, col, null);
 			}
 		}
@@ -120,7 +120,7 @@ public class TileManager {
 			File file = new File(filePath);
 			BufferedReader br = new BufferedReader(new FileReader(file));
 
-			if (getNbOfLine(filePath) != Global.ROW_NUM) {
+			if (getNbOfLine(filePath) != Global.WORLD_ROW_NUM) {
 				br.close();
 				throw new Exception("ERROR: invalid map file (wrong number of rows)");
 			}
@@ -133,7 +133,7 @@ public class TileManager {
 				// split line on space
 				String[] lineSplit = line.split(" ");
 
-				if (lineSplit.length != Global.COL_NUM) {
+				if (lineSplit.length != Global.WORLD_COL_NUM) {
 					br.close();
 					throw new Exception("ERROR: invalid map file (wrong number of columns on line " + row + ")");
 				}
@@ -151,7 +151,11 @@ public class TileManager {
 					} else {
 						BufferedImage tileImage;
 						tileImage = tilesImages.get(tileIndex);
-						mapTiles[row][col] = new Tile(row, col, tileImage, new Rectangle(col * Global.TILE_SIZE, row * Global.TILE_SIZE, Global.TILE_SIZE, Global.TILE_SIZE));
+						if (tileIndex != 7) {
+							mapTiles[row][col] = new Tile(row, col, tileImage, new Rectangle(col * Global.TILE_SIZE, row * Global.TILE_SIZE, Global.TILE_SIZE, Global.TILE_SIZE));
+						} else {
+							mapTiles[row][col] = new Tile(row, col, tileImage);
+						}
 					}
 				}
 
@@ -168,8 +172,8 @@ public class TileManager {
 
 	public void draw(Graphics2D g) {
 
-		for (int row = 0; row < Global.ROW_NUM; row++) {
-			for (int col = 0; col < Global.COL_NUM; col++) {
+		for (int row = 0; row < Global.WORLD_ROW_NUM; row++) {
+			for (int col = 0; col < Global.WORLD_COL_NUM; col++) {
 				if (mapTiles[row][col] != null) {
 					mapTiles[row][col].draw(g, col, row);
 				}
